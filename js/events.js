@@ -23,20 +23,22 @@ galaxymap.prototype.events = function()
         }
         
         if (!no_move && delta > 0) { // смещение в сторону скролла
-			x = e.pageX-window.innerWidth/2; 
-			y = e.pageY-window.innerHeight/2;
+            x = e.pageX-window.innerWidth/2; 
+            y = e.pageY-window.innerHeight/2;
 			
-			e.data.camera.position.x += (x*e.data.camera.scale.x)/(0.03*delta);
-			e.data.camera.position.y -= (y*e.data.camera.scale.y)/(0.03*delta);
-		}
+            e.data.camera.position.x += (x*e.data.camera.scale.x)/(0.03*delta);
+            e.data.camera.position.y -= (y*e.data.camera.scale.y)/(0.03*delta);
+        }
 
         e.preventDefault ? e.preventDefault() : (e.returnValue = false);
     });
     elem.bind("mousedown", function (e) {
-        isMove = true;
+		if (e.which == 1) {
+			isMove = true;
 
-      	oldX = e.pageX;
-        oldY = e.pageY;
+			oldX = e.pageX;
+			oldY = e.pageY;
+		}
     });
 
     elem.bind("mouseup", function (e) {
@@ -61,6 +63,10 @@ galaxymap.prototype.events = function()
         oldY = y;
         
 
+    });
+    
+    elem.bind("contextmenu", function (e) {
+        return false; 
     });
 
 }
