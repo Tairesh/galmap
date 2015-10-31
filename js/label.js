@@ -1,32 +1,76 @@
+galaxymap.prototype.labelBasic = function(text, x, y, size, color)
+{
+    var geometry = new THREE.Geometry();
+
+    var backgroundMargin = 50;
+    var canvas1 = document.createElement('canvas');
+    var context1 = canvas1.getContext('2d');
+
+    canvas1.width = 900;
+    canvas1.height = 900;
+
+    context1.font = "Normal "+(size*2)+"px Tahoma";
+    context1.fillStyle = "rgba(255,255,255,1)";
+    context1.textAlign = "center";
+    context1.fillStyle = color;
+    context1.textBaseline = "middle";
+    context1.fillText(text, canvas1.width / 2, canvas1.height / 2);
+    
+
+    texture1 = new THREE.Texture(canvas1) 
+    texture1.needsUpdate = true;
+
+
+    var vertex = new THREE.Vector3();
+    vertex.x = x;
+    vertex.y = y;
+    vertex.z = 0;
+
+    geometry.vertices.push( vertex );
+
+    material = new THREE.ParticleBasicMaterial( { size: 215, sizeAttenuation: true, map: texture1, transparent: true } );
+    
+
+    particles = new THREE.ParticleSystem( geometry, material );
+    particles.sortParticles = true;
+    return particles;
+}
+
+
 galaxymap.prototype.label = function(text, x, y, size, color)
 {
-    //Создаем канвас
-    var canvas = document.createElement('canvas');
-    //Задаем хар-ки текста и рисуем
-    var context = canvas.getContext('2d');
-    context.font = "Normal "+size+"px Tahoma";
-    context.fillStyle = "rgba(255,255,255,1)";
-	context.textAlign = "center";
-	context.fillStyle = color;
-	context.textBaseline = "middle";
-    context.fillText(text, canvas.width / 2, canvas.height / 2);
-    //Создаем текстуру на основе канваса
-    var texture = new THREE.Texture(canvas) 
-    texture.needsUpdate = true;
+    var geometry = new THREE.Geometry();
 
-    var material = new THREE.MeshBasicMaterial( {map: texture} );
-    material.transparent = true;
-    //создаем меш и геометрию - плоскость
-    //размер плоскости делим на 5
-    //для того чтобы сохранить качество текста при приближении камеры. 
-    var mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(canvas.width/5, canvas.height/5),
-        material
-      );
+    var backgroundMargin = 50;
+    var canvas1 = document.createElement('canvas');
+    var context1 = canvas1.getContext('2d');
 
-    mesh.position.x = x;
-    mesh.position.y = y;
-    mesh.position.z = 0;
+    canvas1.width = 900;
+    canvas1.height = 900;
 
-    return mesh;
+    context1.font = "Normal "+(size*4)+"px Tahoma";
+    context1.fillStyle = "rgba(255,255,255,1)";
+    context1.textAlign = "center";
+    context1.fillStyle = color;
+    context1.textBaseline = "middle";
+    context1.fillText(text, canvas1.width / 2, canvas1.height / 2);
+    
+
+    texture1 = new THREE.Texture(canvas1) 
+    texture1.needsUpdate = true;
+
+
+    var vertex = new THREE.Vector3();
+    vertex.x = x;
+    vertex.y = y;
+    vertex.z = 0;
+
+    geometry.vertices.push( vertex );
+
+    material = new THREE.ParticleBasicMaterial( { size: 85, sizeAttenuation: true, map: texture1, transparent: true } );
+    
+
+    particles = new THREE.ParticleSystem( geometry, material );
+    particles.sortParticles = true;
+    return particles;
 }
